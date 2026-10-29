@@ -1,0 +1,25 @@
+# Client data never enters this repository
+clients/
+runs/
+*.docx
+*.pdf
+*.xlsx
+*.zip
+
+# Secrets
+.env
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+dist/
+build/
+*.egg-info/
+
+# OS and editors
+.DS_Store
+.idea/
+.vscode/
