@@ -1,0 +1,38 @@
+name: tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  unittest:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e '.[anthropic]'
+      - name: Unit tests
+        # No API keys are configured on purpose: the suite must pass without network access to any model.
+        run: python -m unittest discover -s tests -t . -v
+      - name: Demo run blocks on the planted gaps
+        run: |
+          set +e
+          bf run tests/fixtures/tender_sa --library tests/fixtures/library_falcon --client ci --runs-dir "$RUNNER_TEMP/bf-runs"
+          code=$?
+          set -e
+          test "$code" -eq 1
