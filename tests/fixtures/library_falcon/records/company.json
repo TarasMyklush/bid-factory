@@ -1,0 +1,91 @@
+[
+  {
+    "id": "CO-001",
+    "type": "company",
+    "title": "Falcon Managed Services Co. company profile (fictional)",
+    "summary": "Falcon Managed Services Co. is a Riyadh-based IT managed services provider founded in 2016. It employs 420 staff and runs bilingual service desks for public and private sector clients in the Kingdom.",
+    "tags": [
+      "company",
+      "profile",
+      "managed services",
+      "nitaqat",
+      "saudization"
+    ],
+    "figures": {
+      "legal_name": "Falcon Managed Services Co.",
+      "founded_year": 2016,
+      "annual_turnover": 41000000,
+      "turnover_currency": "SAR",
+      "local_content_pct": 32,
+      "nitaqat_band": "high green",
+      "saudi_nationals_pct": 64,
+      "staff": 420
+    },
+    "source": "tenant://library/company/profile-2026.docx"
+  },
+  {
+    "id": "REG-001",
+    "type": "registration",
+    "title": "Commercial Registration, Kingdom of Saudi Arabia",
+    "summary": "Falcon holds a valid Commercial Registration issued by the Ministry of Commerce in the Kingdom of Saudi Arabia.",
+    "valid_until": "2027-08-01",
+    "tags": [
+      "commercial registration",
+      "cr",
+      "ministry of commerce"
+    ],
+    "source": "tenant://library/registrations/cr.pdf"
+  },
+  {
+    "id": "REG-002",
+    "type": "registration",
+    "title": "VAT registration certificate and Etimad supplier registration",
+    "summary": "Falcon is registered on the Etimad platform as a supplier and holds a valid VAT registration certificate issued by ZATCA.",
+    "tags": [
+      "vat",
+      "etimad",
+      "zatca",
+      "registered"
+    ],
+    "source": "tenant://library/registrations/vat-etimad.pdf"
+  },
+  {
+    "id": "REG-003",
+    "type": "registration",
+    "title": "Zakat certificate",
+    "summary": "Falcon holds a valid Zakat certificate issued by ZATCA.",
+    "valid_until": "2027-04-30",
+    "tags": [
+      "zakat",
+      "certificate",
+      "zatca"
+    ],
+    "source": "tenant://library/registrations/zakat.pdf"
+  },
+  {
+    "id": "REG-004",
+    "type": "registration",
+    "title": "GOSI certificate",
+    "summary": "Falcon holds a GOSI certificate confirming social insurance contributions are up to date.",
+    "valid_until": "2026-12-31",
+    "tags": [
+      "gosi",
+      "certificate",
+      "social insurance"
+    ],
+    "source": "tenant://library/registrations/gosi.pdf"
+  },
+  {
+    "id": "FIN-001",
+    "type": "financial",
+    "title": "Audited financial statements 2023 to 2025 and bank guarantee facility",
+    "summary": "Falcon's financial statements for 2023, 2024 and 2025 are audited. A bank guarantee facility of SAR 5 million is available for bid bonds and performance bonds.",
+    "tags": [
+      "audited",
+      "financial statements",
+      "bid bond",
+      "bank guarantee"
+    ],
+    "source": "tenant://library/finance/audited-2023-2025.pdf"
+  }
+]

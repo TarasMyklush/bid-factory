@@ -1,6 +1,6 @@
 # Bid Factory: MVP specification
 
-Version 0.1, 29 October 2026. Owner: Taras Myklush. Status: draft for the 45-day test.
+Version 0.2, 29 October 2026. Owner: Taras Myklush. Status: draft for the 45-day test.
 
 ## 1. Summary
 
@@ -121,25 +121,34 @@ The MVP is intentionally thin.
 
 ```
 client tenant (SharePoint or Google Drive, in-region)
-  └── bid-library/            source documents, owned by client
-  └── bids/<tender-id>/       tender pack in, artefacts out
+  └── bid-library/            records/*.json, pricing.json, source documents, owned by client
+  └── bids/<tender-id>/       tender pack and tender.json in, artefacts out
 
-our side (per client, local encrypted workspace, ephemeral per run)
-  bf intake   <tender-dir>    -> run.json (tier, portal, deadline, inventory)
+our side (per run, local workspace, deleted at close)
+  bf intake   <tender-dir>    -> run.json (tier, portal, deadline, file hashes)
   bf extract  <run>           -> clauses.json
   bf matrix   <run>           -> matrix.json (validated against schema)
   bf gaps     <run>           -> gap-report.md
   bf draft    <run>           -> sections/*.md with evidence refs
-  bf pack     <run>           -> pack/ (docx, pdf, forms, checklist.md)
-  bf review   <run>           -> review-findings.md
-  bf log      <run> <outcome> -> appends to bid-outcome-log.csv
+  bf pack     <run>           -> pack/ (md, docx, csv, checklist, manifest)
+  bf review   <run>           -> review-findings.md, review.json
+  bf log      <run> <outcome> -> appends to the outcome log CSV
+  bf close    <run>           -> copies deliverables to the client folder, deletes the workspace
+  bf run      <tender-dir>    -> intake through review
 ```
 
-- Language: Python. One package, one CLI, no server, no database beyond JSON and the CSV log.
-- Library index: embeddings over normalised library records, stored per client, rebuilt from the client tenant on each run so nothing stale or orphaned persists on our side.
+- Language: Python 3.11+. One package, one CLI, no server, no database beyond JSON and the CSV log.
+- Library retrieval: idf-weighted lexical matching over normalised records, computed in memory per run from the
+  client's library. No embedding service, so no library text leaves for indexing. See docs/decisions.md.
+- Tender documents and the library are referenced by path and hash, never copied into the workspace. A change to a
+  tender file after intake is reported at every later stage.
+- Without a configured model, every stage runs on deterministic rules. The output is fully cited but reads as a
+  structured answer list rather than prose; a model is what turns it into a narrative.
 - Templates: per-buyer document templates and style notes in `templates/buyers/` as they are learned.
-- Secrets and client data: never in this repository. The repository holds code, schemas and templates only.
-- Observability: every model call logged with tier, model, token counts and run id; no prompt or completion content stored for Tier B runs.
+- Secrets and client data: never in this repository. The repository holds code, schemas, templates and synthetic
+  fixtures only.
+- Observability: every model call logged with tier, provider, model, token counts and run id; no prompt or
+  completion content is logged for any tier.
 
 Explicitly deferred: web app, client login, portal integrations, payment integration, multi-user roles, Arabic generation.
 

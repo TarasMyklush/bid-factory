@@ -1,0 +1,26 @@
+[
+  {
+    "id": "PRJ-001",
+    "type": "project",
+    "title": "Service desk for a regional health cluster (anonymised)",
+    "summary": "Falcon ran a bilingual IT service desk for a regional health cluster serving 1,800 end users from 2023 to 2025. A client reference letter is on file.",
+    "tags": ["service desk", "similar project", "reference letter", "end users", "health"],
+    "permission": "public"
+  },
+  {
+    "id": "PRJ-002",
+    "type": "project",
+    "title": "End-user support for a university (anonymised)",
+    "summary": "Falcon provided end-user support and a managed service desk for a university with 3,200 end users from 2022 to 2025. A client reference letter is on file.",
+    "tags": ["service desk", "similar project", "reference letter", "end users", "education"],
+    "permission": "on_request"
+  },
+  {
+    "id": "PRJ-003",
+    "type": "project",
+    "title": "IT service desk for a logistics group (anonymised)",
+    "summary": "Falcon operates the IT service desk for a logistics group with 1,200 end users since 2024. A client reference letter is on file.",
+    "tags": ["service desk", "similar project", "reference letter", "end users", "logistics"],
+    "permission": "no"
+  }
+]

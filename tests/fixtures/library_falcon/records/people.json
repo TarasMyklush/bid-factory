@@ -1,0 +1,30 @@
+[
+  {
+    "id": "PER-001",
+    "type": "person",
+    "name": "Khalid Al-Harbi (fictional)",
+    "email": "k.alharbi@falcon.example",
+    "phone": "+966 55 123 4567",
+    "role": "Service Delivery Manager",
+    "title": "Service Delivery Manager CV",
+    "summary": "Khalid Al-Harbi is a Service Delivery Manager with 14 years of experience running ITIL-based service desks. Khalid holds the ITIL 4 Managing Professional certification. Contact k.alharbi@falcon.example.",
+    "tags": ["service delivery manager", "itil 4", "cv", "key personnel"],
+    "source": "tenant://library/cvs/per-001.pdf"
+  },
+  {
+    "id": "PER-002",
+    "type": "person",
+    "name": "Sara Al-Qahtani (fictional)",
+    "role": "Service Desk Team Lead",
+    "title": "Service Desk Team Lead CV",
+    "summary": "Sara Al-Qahtani leads a team of 30 bilingual service desk analysts and holds the ITIL 4 Foundation certification.",
+    "tags": ["team lead", "itil 4", "cv", "team"],
+    "source": "tenant://library/cvs/per-002.pdf"
+  },
+  {
+    "id": "ID-001",
+    "type": "identity",
+    "title": "Passport copy of the authorised signatory",
+    "summary": "Identity document."
+  }
+]

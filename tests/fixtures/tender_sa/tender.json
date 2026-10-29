@@ -1,0 +1,15 @@
+{
+  "buyer": "National Digital Services Authority (fictional)",
+  "reference": "NDSA-2026-ITSD-014",
+  "title": "Managed IT Service Desk and End-User Support",
+  "portal": "etimad",
+  "country": "SA",
+  "deadline": "2026-12-15T13:00:00+03:00",
+  "public": true,
+  "buyer_type": "government",
+  "category": "it_software",
+  "evaluation_method": "Weighted: technical 70, financial 30; technical pass mark 70",
+  "technical_weight_pct": 70,
+  "commercial_weight_pct": 30,
+  "pass_mark_pct": 70
+}

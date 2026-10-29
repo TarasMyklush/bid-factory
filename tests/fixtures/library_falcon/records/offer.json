@@ -1,0 +1,37 @@
+[
+  {
+    "id": "PRD-001",
+    "type": "product",
+    "title": "ServiceFlow ITSM platform (fictional)",
+    "summary": "ServiceFlow is an ITSM platform aligned with ITIL 4 covering incident, problem, change and asset management. It is hosted in a CST-licensed data centre in Riyadh, so service management data is stored within the Kingdom. It includes an Arabic and English self-service portal and knowledge base.",
+    "tags": ["itsm", "itil 4", "platform", "solution", "data residency", "hosted in the kingdom", "self-service", "knowledge management"]
+  },
+  {
+    "id": "POL-001",
+    "type": "policy",
+    "title": "Information security policy aligned to NCA ECC",
+    "summary": "Falcon's information security policy is aligned to the NCA Essential Cybersecurity Controls (ECC-2:2024) and is reviewed annually by the security committee.",
+    "tags": ["nca", "ecc", "cybersecurity", "security controls", "policy"]
+  },
+  {
+    "id": "BP-001",
+    "type": "boilerplate",
+    "title": "Transition and knowledge transfer methodology",
+    "summary": "Falcon's transition methodology runs a 90-day plan in three phases: discovery, shadowing and handover. Knowledge transfer from the incumbent is captured in the knowledge base before go-live.",
+    "tags": ["methodology", "transition plan", "knowledge transfer", "implementation"]
+  },
+  {
+    "id": "BP-002",
+    "type": "boilerplate",
+    "title": "Service desk operating model and service levels",
+    "summary": "Falcon runs bilingual service desks in Arabic and English 24 hours a day, 7 days a week. Standard service levels are a 15-minute response and 4-hour resolution for priority 1 incidents. Falcon guarantees 99.9% monthly availability and offers service credits for breaches.",
+    "tags": ["service-levels", "sla", "service desk", "24x7", "availability", "service credits", "operate"]
+  },
+  {
+    "id": "FORM-001",
+    "type": "form",
+    "title": "Integrity Pledge (Annex B), completed template",
+    "summary": "The Integrity Pledge form (Annex B) is completed and ready for signature by the authorised signatory.",
+    "tags": ["form", "annex b", "integrity pledge"]
+  }
+]

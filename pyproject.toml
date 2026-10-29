@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bid-factory"
+version = "0.1.0"
+description = "Tender response factory: intake, clause extraction, compliance matrix, gap report, evidence-bound drafting, pack assembly and review."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "jsonschema>=4.22",
+  "pypdf>=5",
+  "python-docx>=1.1",
+]
+
+[project.optional-dependencies]
+anthropic = ["anthropic>=2.3"]
+
+[project.scripts]
+bf = "bf.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+bf = ["schemas/*.json"]

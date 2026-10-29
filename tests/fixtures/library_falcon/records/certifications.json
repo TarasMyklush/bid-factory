@@ -1,0 +1,20 @@
+[
+  {
+    "id": "CERT-001",
+    "type": "certification",
+    "title": "ISO 9001:2015 certificate",
+    "summary": "Falcon's quality management system is certified to ISO 9001:2015 for managed IT services.",
+    "valid_until": "2027-06-30",
+    "tags": ["iso 9001", "quality"],
+    "source": "tenant://library/certs/iso9001.pdf"
+  },
+  {
+    "id": "CERT-002",
+    "type": "certification",
+    "title": "ISO/IEC 27001:2022 certificate",
+    "summary": "Falcon's information security management system is certified to ISO/IEC 27001:2022 for service desk operations.",
+    "valid_until": "2026-11-20",
+    "tags": ["iso 27001", "information security"],
+    "source": "tenant://library/certs/iso27001.pdf"
+  }
+]

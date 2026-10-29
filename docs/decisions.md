@@ -2,6 +2,28 @@
 
 Newest first. One entry per decision, with the alternatives rejected.
 
+## 2026-10-29: MVP toolkit choices
+
+Decisions taken while building the `bf` toolkit, where the spec left room or the build deviated:
+
+- **Lexical retrieval instead of embeddings.** Idf-weighted matching with plural folding, computed per run.
+  Rejected: an embedding API. Reason: it would send every library record to a third party for indexing, which
+  breaks the Tier B rule for most clients; libraries are small enough that lexical matching plus deterministic
+  checks is adequate. Revisit when libraries pass a few hundred records.
+- **Deterministic checks before any model.** Certificate names and expiry, turnover, local content, Saudisation,
+  Nitaqat band, years in business, project counts and annexes are checked in code. A model judgement can only
+  choose among retrieved candidates; invented record ids are dropped and an "answered" without valid evidence
+  becomes "partial".
+- **Rules mode is a complete fallback.** Every stage runs without a model. The draft is a fully cited answer
+  list rather than prose. This keeps Tier B work possible before an in-country model is contracted.
+- **In-country model through any OpenAI-compatible endpoint.** Rejected: a vendor-specific SDK. Reason: the
+  candidate hosts (vLLM on sovereign cloud, Core42, Humain, Oracle) differ, and the chat-completions shape is the
+  common denominator. Whether a host is genuinely in-country is recorded on the client's data handling sheet.
+- **No prompt or completion content logged for any tier.** Stricter than the spec, which only required it for
+  Tier B. Reason: there is no debugging need that justifies the risk.
+- **`bf close` added.** The spec required workspaces to be deleted at run close but named no command for it.
+- **Fixed buyer time zones (UTC+3 Saudi Arabia, UTC+4 UAE).** Neither country observes daylight saving.
+
 ## 2026-10-29: Service first, product never in the MVP
 
 Decision: run Bid Factory as a done-for-you service on a thin CLI toolkit. No SaaS, no client portal, no portal integrations.
