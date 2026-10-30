@@ -10,6 +10,7 @@
     bf log     <run> --outcome ...                      -> appends to the outcome log
     bf close   <run> --deliver-to DIR                   -> copies deliverables, deletes the workspace
     bf run     <tender-dir> --library DIR --client ID   -> intake through review in one go
+    bf ui      [--workspace DIR]                        -> the same workflow in a local web interface
 """
 from __future__ import annotations
 
@@ -302,7 +303,23 @@ def build_parser() -> argparse.ArgumentParser:
     _intake_args(p)
     p.add_argument("--model", choices=CHOICES, default="auto")
     p.set_defaults(fn=cmd_run)
+
+    p = sub.add_parser("ui", help="open the web interface in a browser")
+    p.add_argument("--workspace", default="~/BidFactory",
+                   help="folder for tenders, libraries, runs and deliveries (default: ~/BidFactory)")
+    p.add_argument("--libraries", help="read client libraries from this folder instead of <workspace>/libraries")
+    p.add_argument("--host", default="127.0.0.1", help="interface to listen on (default: this machine only)")
+    p.add_argument("--port", type=int, default=8765)
+    p.add_argument("--allow-host", action="append", default=[], help="extra Host name to accept, e.g. behind a proxy")
+    p.add_argument("--no-browser", action="store_true", help="do not open a browser window")
+    p.add_argument("--demo", action="store_true", help="add the synthetic demo tender and library to the workspace")
+    p.set_defaults(fn=cmd_ui)
     return parser
+
+
+def cmd_ui(a: argparse.Namespace) -> int:
+    from .ui import serve
+    return serve(a.workspace, a.host, a.port, not a.no_browser, a.demo, a.libraries, tuple(a.allow_host))
 
 
 def main(argv: list[str] | None = None) -> int:

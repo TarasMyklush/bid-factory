@@ -2,7 +2,7 @@
 
 A done-for-you tender and bid response service for mid-sized suppliers bidding on Saudi and UAE government and semi-government tenders. Agents do the drafting, compliance mapping and gap analysis; one human reviews; the client signs and submits under its own supplier registration.
 
-Status: **MVP toolkit built, untested on a live model or a real tender.** The `bf` command line runs the whole per-bid workflow from SPEC.md section 4.2 on deterministic rules, and routes model calls by data tier when a model is configured. The test suite runs on synthetic fixtures only.
+Status: **MVP toolkit built, untested on a live model or a real tender.** The `bf` toolkit runs the whole per-bid workflow from SPEC.md section 4.2, from a browser (`bf ui`) or the command line, on deterministic rules, and routes model calls by data tier when a model is configured. The test suite runs on synthetic fixtures only.
 
 ## Why this exists
 
@@ -16,13 +16,42 @@ Status: **MVP toolkit built, untested on a live model or a real tender.** The `b
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -e '.[anthropic]'
-.venv/bin/python -m unittest discover -s tests -t .
+.venv/bin/bf ui --demo
+```
+
+`bf ui` opens the interface in your browser with a fictional tender and supplier library loaded. Choose **New bid**,
+pick the sample tender, and start. The same run from the command line, and the tests:
+
+```bash
 .venv/bin/bf run tests/fixtures/tender_sa --library tests/fixtures/library_falcon --client demo --runs-dir /tmp/bf-runs
+.venv/bin/python -m unittest discover -s tests -t .
 ```
 
 The demo tender and supplier are fictional. The run finishes with exit code 1 on purpose: the supplier's ISO 27001
 certificate expires before the deadline, its local content score is 32% against 40% required, and only two of its
 three similar projects may be cited. The gap report, the draft and the pack all say so.
+
+## The interface
+
+`bf ui [--workspace DIR] [--libraries DIR]` serves a web interface from this machine. Nothing is hosted and nothing
+loads from the internet, so it runs on an air-gapped company laptop with no extra dependencies.
+
+| Screen | What the bid writer does there |
+|---|---|
+| Bids | Every tender in the workspace, nearest deadline first, with recommendation, review state and progress |
+| New bid | Drop the tender documents (details fill in from `tender.json`), pick the client library, declare how sensitive the documents are, see which model will be used, start. Progress is live |
+| Overview | Go, no-go or go-with-partner with the reasons, scored points evidenced, data tier and why, next steps |
+| Requirements | Every extracted clause with filters and search; a side panel shows the source, the evidence records with expiry against the deadline, and reviewer notes |
+| Gaps | Client actions and our actions, each with the action and the date it must close by; the gap report to send the client |
+| Draft | Each section with cited records you can click, placeholders highlighted; edit and save, which forces a rebuild of the pack and review |
+| Review | Automated findings linked to the requirement or section, and the human sign-off checklist, which unlocks only when the review passes |
+| Pack | The files, download one or all, the submission checklist, and what the client attaches from its own systems |
+| Close out | Log the outcome, then deliver to the client folder and delete the workspace and uploaded documents |
+| Libraries | Each client's records as the toolkit sees them, pseudonymised, with expired and expiring evidence flagged |
+
+The workspace (default `~/BidFactory`) holds uploaded tenders, run workspaces, deliveries and the outcome log. It holds
+client data, so keep it out of this repository. Access needs the one-time link printed at start-up. See
+[docs/decisions.md](docs/decisions.md) for the security model.
 
 ## The commands
 
@@ -38,6 +67,7 @@ three similar projects may be cited. The gap report, the draft and the pack all 
 | `bf log <run> --outcome ...` | outcome CSV | Columns match `templates/bid-outcome-log.csv`; the tender reference is stored as a hash |
 | `bf close <run> --deliver-to DIR` | | Copies the deliverables to the client's folder and deletes the workspace |
 | `bf run <tender-dir> ...` | | Intake through review in one go |
+| `bf ui` | | The same workflow in the browser |
 
 ## Models and data tiers
 

@@ -16,6 +16,8 @@ spec disagree, fix one of them in the same change and log it in docs/decisions.m
   `models.select_model` needs a test for the refusal path.
 - **No prompt or completion content in logs.** `model-calls.jsonl` holds task, tier, provider, model and token counts.
 - **The client submits.** The toolkit never holds portal credentials or submits anything.
+- **The UI never weakens a rule.** It runs the CLI stages; any check it adds (sign-off, stale review) is stricter,
+  never looser. Every value rendered in the page goes through the escaping `html` helper.
 - **Deterministic first.** Facts that can be checked in code (expiry dates, thresholds, counts, numbers, annexes)
   are checked in code. Model output is post-validated and can only lower a status, never invent evidence.
 
@@ -25,9 +27,10 @@ spec disagree, fix one of them in the same change and log it in docs/decisions.m
 python3 -m venv .venv && .venv/bin/pip install -e '.[anthropic]'
 .venv/bin/python -m unittest discover -s tests -t .
 .venv/bin/bf run tests/fixtures/tender_sa --library tests/fixtures/library_falcon --client demo --runs-dir /tmp/bf-runs
+.venv/bin/bf ui --workspace /tmp/bf-ws --demo
 ```
 
-Tests must pass without network or API keys. Model paths are tested with `FakeModel` and mocked clients.
+Tests must pass without network or API keys. `tests/test_ui.py` starts a real server on a free port. Model paths are tested with `FakeModel` and mocked clients.
 
 ## Layout
 
@@ -36,6 +39,8 @@ Tests must pass without network or API keys. Model paths are tested with `FakeMo
 - `documents.py` loaders; `extract.py` clause extraction; `library.py` bid library, pseudonymisation, retrieval
 - `matrix.py` compliance matrix and deterministic checks; `gaps.py` gap report
 - `draft.py` evidence-bound drafting; `pack.py` pack assembly; `review.py` automated review; `outcome.py` outcome log
+- `ui.py` the local web interface (`bf ui`): stdlib HTTP server, JSON API, pipeline jobs as CLI subprocesses;
+  `web/` its bundled page, script and styles. No CDN, no external requests, no build step
 - `schemas/compliance-matrix.schema.json` must stay identical to `templates/compliance-matrix.schema.json` (tested)
 
 ## Style

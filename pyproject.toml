@@ -24,4 +24,4 @@ bf = "bf.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-bf = ["schemas/*.json"]
+bf = ["schemas/*.json", "web/*"]

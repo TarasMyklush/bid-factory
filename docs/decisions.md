@@ -2,6 +2,30 @@
 
 Newest first. One entry per decision, with the alternatives rejected.
 
+## 2026-10-29: A local web interface (`bf ui`)
+
+Decision: add a browser interface for the bid writer, served from the operator's own machine. This reverses the
+spec's "web app deferred" for an internal, single-user tool; a hosted app and client logins stay deferred.
+
+- **Standard library server, no framework, no build step.** `http.server` plus plain ES modules and CSS, all bundled
+  in the package. Rejected: Streamlit, NiceGUI, Gradio (extra wheels, websocket runtimes and telemetry to switch
+  off), FastAPI with a React build (a Node toolchain for a single-user tool). Reason: it must install and run on an
+  air-gapped company machine with nothing but the existing three dependencies, and load nothing from the internet.
+- **The UI runs the CLI.** Each stage is a `python -m bf.cli` subprocess. Rejected: calling the stage functions in
+  the server process. Reason: one implementation of every tier rule and refusal, and a crash in a stage cannot take
+  the server down.
+- **Security as if it were exposed.** Binds to 127.0.0.1 by default; a one-time link sets an HttpOnly, SameSite=Strict
+  session cookie; the Host header is checked against an allowlist (DNS rebinding); state-changing requests need a
+  custom header, a same-origin `Origin` and `Sec-Fetch-Site` (CSRF); strict CSP with `script-src 'self'`. Inline
+  `style` attributes are allowed (`style-src 'unsafe-inline'`) for progress bars and widths; script stays strict and
+  every value is HTML-escaped. `--host` beyond localhost prints a warning to put it behind a TLS proxy.
+- **Edits force a re-review.** Saving a draft section marks the review stale and clears sign-off; sign-off is refused
+  until the pack and review are rebuilt and pass. A full re-check re-drafts and discards edits; reviewer notes on
+  matrix rows are kept across re-checks.
+- **Closing deletes uploaded tender documents** from the workspace as well as the run, matching the
+  delete-at-close rule for workspaces.
+- **The sign-off checklist is a copy of templates/review-checklist.md** kept in step by a test.
+
 ## 2026-10-29: MVP toolkit choices
 
 Decisions taken while building the `bf` toolkit, where the spec left room or the build deviated:

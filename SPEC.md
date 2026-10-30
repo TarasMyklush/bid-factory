@@ -1,12 +1,12 @@
 # Bid Factory: MVP specification
 
-Version 0.2, 29 October 2026. Owner: Taras Myklush. Status: draft for the 45-day test.
+Version 0.3, 29 October 2026. Owner: Taras Myklush. Status: draft for the 45-day test.
 
 ## 1. Summary
 
 Bid Factory produces complete, compliant tender responses for mid-sized suppliers bidding on Saudi and UAE public-sector and semi-government tenders. The client forwards a tender. Within an agreed turnaround the client receives four artefacts: a compliance matrix mapping every clause to a response, a gap report naming what the client lacks, the drafted technical and commercial narrative built from the client's own bid library, and a portal-ready submission pack. A human reviews everything before it leaves. The client signs and submits under its own supplier registration.
 
-The MVP is a service run on agents, not a software product. The only code is a small command-line toolkit that turns a tender and a bid library into the four artefacts and logs the outcome. The asset being built is the per-client bid library plus the outcome data across bids, which later tells us which tender types are won on paperwork and price alone.
+The MVP is a service run on agents, not a software product. The only code is a small toolkit, with a command line and a local web interface for the bid writer, that turns a tender and a bid library into the four artefacts and logs the outcome. The asset being built is the per-client bid library plus the outcome data across bids, which later tells us which tender types are won on paperwork and price alone.
 
 ### Thesis, in three lines
 
@@ -135,9 +135,14 @@ our side (per run, local workspace, deleted at close)
   bf log      <run> <outcome> -> appends to the outcome log CSV
   bf close    <run>           -> copies deliverables to the client folder, deletes the workspace
   bf run      <tender-dir>    -> intake through review
+  bf ui                       -> the same workflow in a browser on the operator's machine
 ```
 
-- Language: Python 3.11+. One package, one CLI, no server, no database beyond JSON and the CSV log.
+- Language: Python 3.11+. One package, one CLI, no hosted server, no database beyond JSON and the CSV log.
+- Interface: `bf ui` serves a single-user web interface from the operator's machine, standard library only, with
+  every asset bundled so it runs air-gapped. It runs the same CLI stages as subprocesses, so every tier rule
+  applies unchanged. It adds the human review sign-off, section editing with a forced re-review, and reviewer
+  notes on matrix rows. See docs/decisions.md.
 - Library retrieval: idf-weighted lexical matching over normalised records, computed in memory per run from the
   client's library. No embedding service, so no library text leaves for indexing. See docs/decisions.md.
 - Tender documents and the library are referenced by path and hash, never copied into the workspace. A change to a
@@ -150,7 +155,7 @@ our side (per run, local workspace, deleted at close)
 - Observability: every model call logged with tier, provider, model, token counts and run id; no prompt or
   completion content is logged for any tier.
 
-Explicitly deferred: web app, client login, portal integrations, payment integration, multi-user roles, Arabic generation.
+Explicitly deferred: hosted web app, client login, portal integrations, payment integration, multi-user roles, Arabic generation.
 
 ## 7. Data residency and protection
 
