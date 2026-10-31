@@ -23,3 +23,6 @@ build/
 .DS_Store
 .idea/
 .vscode/
+
+# Outcome logs hold client business data
+/bid-outcome-log.csv

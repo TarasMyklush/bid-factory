@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bidfactory.local/schemas/compliance-matrix.json",
+  "title": "Compliance matrix",
+  "description": "One row per clause, requirement or evaluation criterion extracted from a tender. Drafting cannot start until every row has a status.",
+  "type": "object",
+  "required": ["run_id", "tender", "rows", "summary"],
+  "properties": {
+    "run_id": { "type": "string" },
+    "tender": {
+      "type": "object",
+      "required": ["buyer", "reference", "title", "portal", "country", "deadline", "data_tier"],
+      "properties": {
+        "buyer": { "type": "string" },
+        "reference": { "type": "string" },
+        "title": { "type": "string" },
+        "portal": { "type": "string", "enum": ["etimad", "uae_federal_dpp", "dubai_esupply", "abu_dhabi", "semi_government", "private", "other"] },
+        "country": { "type": "string", "enum": ["SA", "AE", "other"] },
+        "deadline": { "type": "string", "format": "date-time" },
+        "data_tier": { "type": "string", "enum": ["A", "B", "C"] },
+        "evaluation_method": { "type": "string", "description": "e.g. lowest price among technically compliant, weighted 70/30, QCBS" },
+        "technical_weight_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "commercial_weight_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "pass_mark_pct": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "source", "text", "category", "mandatory", "status", "owner"],
+        "properties": {
+          "id": { "type": "string", "description": "Stable id, e.g. C-017" },
+          "source": {
+            "type": "object",
+            "required": ["document", "location"],
+            "properties": {
+              "document": { "type": "string", "description": "File name in the tender pack" },
+              "location": { "type": "string", "description": "Section, clause number, page" }
+            }
+          },
+          "text": { "type": "string", "description": "Verbatim clause text" },
+          "category": {
+            "type": "string",
+            "enum": [
+              "eligibility",
+              "legal_registration",
+              "financial",
+              "local_content",
+              "nationalisation",
+              "certification",
+              "past_performance",
+              "technical_requirement",
+              "methodology",
+              "team",
+              "sla",
+              "security_compliance",
+              "data_residency",
+              "commercial",
+              "form",
+              "submission_format",
+              "contract_term",
+              "other"
+            ]
+          },
+          "mandatory": { "type": "boolean", "description": "Failure disqualifies" },
+          "scored": { "type": "boolean" },
+          "weight": { "type": "number", "description": "Points or percentage where published" },
+          "status": {
+            "type": "string",
+            "enum": ["answered", "partial", "gap", "client_decision", "not_applicable"],
+            "description": "answered: library evidence fully covers it. partial: covers with caveats. gap: no evidence. client_decision: needs a commercial or legal decision. not_applicable: with justification."
+          },
+          "owner": { "type": "string", "enum": ["bid_factory", "client", "partner"] },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["library_id", "relevance"],
+              "properties": {
+                "library_id": { "type": "string" },
+                "relevance": { "type": "string", "description": "One sentence on how this record answers the clause" },
+                "valid_until": { "type": "string", "format": "date" }
+              }
+            }
+          },
+          "response_section": { "type": "string", "description": "Where in the pack the answer appears" },
+          "gap_action": { "type": "string", "description": "What must happen to close a gap, with a deadline" },
+          "gap_deadline": { "type": "string", "format": "date" },
+          "risk_note": { "type": "string" },
+          "reviewer_notes": { "type": "string" }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["total", "mandatory_total", "mandatory_gaps", "by_status"],
+      "properties": {
+        "total": { "type": "integer" },
+        "mandatory_total": { "type": "integer" },
+        "mandatory_gaps": { "type": "integer", "description": "Any value above zero at pack time blocks delivery" },
+        "scored_points_available": { "type": "number" },
+        "scored_points_evidenced": { "type": "number" },
+        "by_status": {
+          "type": "object",
+          "properties": {
+            "answered": { "type": "integer" },
+            "partial": { "type": "integer" },
+            "gap": { "type": "integer" },
+            "client_decision": { "type": "integer" },
+            "not_applicable": { "type": "integer" }
+          }
+        },
+        "go_no_go": {
+          "type": "object",
+          "properties": {
+            "recommendation": { "type": "string", "enum": ["go", "no_go", "go_with_partner"] },
+            "reasons": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    }
+  }
+}

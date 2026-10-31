@@ -1,0 +1,13 @@
+{
+  "currency": "SAR",
+  "vat_inclusive": true,
+  "validity_days": 120,
+  "payment_terms": "quarterly in arrears",
+  "items": [
+    {"item": "Service desk operations, year 1", "amount": 4200000},
+    {"item": "Service desk operations, year 2", "amount": 4300000},
+    {"item": "Service desk operations, year 3", "amount": 4400000},
+    {"item": "Transition and knowledge transfer", "amount": 350000}
+  ],
+  "total": 13250000
+}
